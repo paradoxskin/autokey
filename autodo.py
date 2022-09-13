@@ -1,8 +1,13 @@
 import pyautogui as gui
 import time
 def fPress(key):
-	gui.press(key)
+	#gui.press(key)
+	fHold(key,0.000001)
 def fHold(key,hold_time):
+	gui.keyDown(key)
+	time.sleep(hold_time)
+	gui.keyUp(key)
+def fHold2(key,hold_time):
 	start=time.time()
 	while time.time()-start<hold_time:
 		gui.press(key)
@@ -28,10 +33,12 @@ if __name__=="__main__":
 		else:
 			keys[i]=x[i][0]
 			if('(' in x[i]):
-				hold[i]=float(x[i][2:-1].split(':')[0])
-				stop[i]=float(x[i][2:-1].split(':')[1])
+				hold[i]=0 if x[i][2:-1].split(':')[0]=="" else float(x[i][2:-1].split(':')[0])
+				stop[i]=0 if x[i][2:-1].split(':')[1]=="" else float(x[i][2:-1].split(':')[1])
 	now=0
 	ntimes=[0]*len(x)
+	print("start in 3 second")
+	time.sleep(3)
 	print("start")
 	while now<mod:
 		if keys[now]==11:# }
@@ -44,6 +51,7 @@ if __name__=="__main__":
 		else:
 			if keys[now]!=10:
 				if(hold[now]==0):
+					print(now)
 					fPress(keys[now])
 				else:
 					fHold(keys[now],hold[now])
